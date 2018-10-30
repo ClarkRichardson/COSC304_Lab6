@@ -130,9 +130,9 @@ public class EnrollJDBC
 	public Connection connect() throws SQLException
 	{
 	    // TODO: Fill in your connection information
-		String url = "jdbc:mysql://cosc304.ok.ubc.ca/<your user id>"; 
-		String uid = "<your user id>";
-		String pw = "<your password>";
+		String url = "jdbc:mysql://cosc304.ok.ubc.ca/db_crichard"; 
+		String uid = "crichard";
+		String pw = "46873155";
 
 		System.out.println("Connecting to database.");
 		// Note: Must assign connection to instance variable as well as returning it back to the caller
