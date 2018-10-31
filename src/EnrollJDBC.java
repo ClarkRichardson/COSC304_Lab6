@@ -19,12 +19,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
+import com.mysql.jdbc.DatabaseMetaData;
+
 public class EnrollJDBC
 {
 	/**
 	 * Connection to database
 	 */
-	private Connection con;
+	private static Connection con;
 	
 
 	/**
@@ -43,8 +45,9 @@ public class EnrollJDBC
 		
 		app.connect();
 		app.init();
-						
-		// List all students
+		
+		
+		/*// List all students
 		System.out.println("Executing list all students.");
 		System.out.println(app.listAllStudents());
 		
@@ -114,11 +117,11 @@ public class EnrollJDBC
         System.out.println(EnrollJDBC.resultSetToString(app.query1(), 100));
         System.out.println(EnrollJDBC.resultSetToString(app.query2(), 100));
         System.out.println(EnrollJDBC.resultSetToString(app.query3(), 100));
-        System.out.println(EnrollJDBC.resultSetToString(app.query4(), 100));
+        System.out.println(EnrollJDBC.resultSetToString(app.query4(), 100));*/
         
         app.close();        		
 	}
-
+	
 	/**
 	 * Makes a connection to the database and returns connection to caller.
 	 * 
@@ -178,7 +181,7 @@ public class EnrollJDBC
 	            String command = scanner.next();
 	            if (command.trim().equals(""))
 	                continue;
-	            System.out.println(command);        // Uncomment if want to see commands executed
+	            //System.out.println(command);        // Uncomment if want to see commands executed
 	            stmt.execute(command);
 	        }	        
 	    }
@@ -272,7 +275,21 @@ public class EnrollJDBC
     {
     	// Use a PreparedStatement for this query.
     	// TODO: Traverse ResultSet and use StringBuilder.append() to add columns/rows to output string
-    	return "";        
+    	StringBuilder output = new StringBuilder();
+        
+        output.append("Student Id, Student Name, Course Number, Section Number");
+        
+        String SQL = "SELECT S.sid, S.sname, C.cnum, E.secnum  FROM student S, enroll E, course C WHERE S.sid = E.sid AND E.cnum = C.cnum";
+        
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        
+        ResultSet rst = pstmt.executeQuery();
+              
+        while(rst.next()) {
+        	output.append("\n" + rst.getString("sid") + ", " + rst.getString("sname") + rst.getString("cnum") + ", " + rst.getString("secnum"));
+        }
+        
+        return output.toString();       
     }
     
     /**

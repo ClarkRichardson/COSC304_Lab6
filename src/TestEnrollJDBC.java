@@ -136,7 +136,7 @@ public class TestEnrollJDBC
     /**
      * Tests listing all students in a course.
      */    
-    /*@Test
+    @Test
     public void testListCourseStudents() throws SQLException
     {                    
         // Re-initialize database
@@ -173,10 +173,10 @@ public class TestEnrollJDBC
     }
     
     
-    *//**
+    /*
      * Tests computing a GPA for a student.
-     *//*    
-    @Test
+     */   
+   /* @Test
     public void testComputeGPA() throws SQLException
     {             
         // Re-initialize database
