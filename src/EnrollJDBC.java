@@ -178,7 +178,7 @@ public class EnrollJDBC
 	            String command = scanner.next();
 	            if (command.trim().equals(""))
 	                continue;
-	            // System.out.println(command);        // Uncomment if want to see commands executed
+	            System.out.println(command);        // Uncomment if want to see commands executed
 	            stmt.execute(command);
 	        }	        
 	    }
@@ -204,10 +204,23 @@ public class EnrollJDBC
     public String listAllStudents() throws SQLException
     {                
         StringBuilder output = new StringBuilder();
-       
+               
     	// Use a PreparedStatement for this query.
         // TODO: Traverse ResultSet and use StringBuilder.append() to add columns/rows to output string        
         
+        output.append("sid, sname, sex, birthdate, gpa");
+        
+        String SQL = "SELECT * FROM student";
+        
+        PreparedStatement stmt = con.prepareStatement(SQL);
+        
+        ResultSet rst = stmt.executeQuery(SQL);
+              
+        while(rst.next()) {
+        	output.append("\n" + rst.getString("sid") + ", " + rst.getString("sname") + ", " + rst.getString("sex") + ", " + rst.getString("birthdate") + ", " + rst.getString("gpa"));
+        }
+        
+        System.out.println(output.toString());
         return output.toString();
     }
     
@@ -225,7 +238,24 @@ public class EnrollJDBC
     {
     	// Use a PreparedStatement for this query.
     	// TODO: Traverse ResultSet and use StringBuilder.append() to add columns/rows to output string
-    	return "";        
+    	
+        StringBuilder output = new StringBuilder();
+        
+        output.append("Professor Name, Department Name");
+        
+        String SQL = "SELECT pname, dname FROM prof WHERE dname = ?";
+        
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setString(1, deptName);
+        
+        ResultSet rst = pstmt.executeQuery();
+              
+        while(rst.next()) {
+        	output.append("\n" + rst.getString("pname") + ", " + rst.getString("dname"));
+        }
+        
+        return output.toString();
+    	      
     }
     
     /**
