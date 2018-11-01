@@ -279,14 +279,16 @@ public class EnrollJDBC
         
         output.append("Student Id, Student Name, Course Number, Section Number");
         
-        String SQL = "SELECT S.sid, S.sname, C.cnum, E.secnum  FROM student S, enroll E, course C WHERE S.sid = E.sid AND E.cnum = C.cnum";
+        String SQL = "SELECT S.sid, S.sname, C.cnum, E.secnum  FROM student S, enroll E, course C WHERE S.sid = E.sid AND E.cnum = C.cnum AND E.cnum = ?";
         
         PreparedStatement pstmt = con.prepareStatement(SQL);
+        
+        pstmt.setString(1, courseNum);
         
         ResultSet rst = pstmt.executeQuery();
               
         while(rst.next()) {
-        	output.append("\n" + rst.getString("sid") + ", " + rst.getString("sname") + rst.getString("cnum") + ", " + rst.getString("secnum"));
+        	output.append("\n" + rst.getString("sid") + ", " + rst.getString("sname") + ", " + rst.getString("cnum") + ", " + rst.getString("secnum"));
         }
         
         return output.toString();       
@@ -295,14 +297,21 @@ public class EnrollJDBC
     /**
      * Returns a ResultSet with a row containing the computed GPA (named as gpa) for a given student id.
      * You must use a PreparedStatement.
-     * 
+     *  
      * @return
      *       ResultSet containing computed GPA
      */
     public ResultSet computeGPA(String studentId) throws SQLException
     {
     	 // TODO: Use a PreparedStatement
-    	return null;
+    	String  Query1 = "SELECT avg(grade) AS gpa FROM enroll WHERE sid = ?";
+        
+        PreparedStatement pstmt = con.prepareStatement(Query1);
+        pstmt.setString(1, studentId);
+        
+        ResultSet rst = pstmt.executeQuery();
+        
+        return rst;
     }
     
     /**
@@ -311,11 +320,26 @@ public class EnrollJDBC
      * 
      * @return
      * 		PreparedStatement used for command
+     * @throws SQLException 
+     * @throws ParseException 
      */
-    public PreparedStatement addStudent(String studentId, String studentName, String sex, java.util.Date birthDate) throws SQLException
+    public PreparedStatement addStudent(String studentId, String studentName, String sex, java.util.Date birthDate) throws SQLException 
     {
    	 	// TODO: Use a PreparedStatement and return it at the end of the method
-    	return null;
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");	
+    	
+    	String  Query1 = "INSERT student (sid, sname, sex, birthdate) VALUES (?,?, ?, ?)";
+        
+        PreparedStatement pstmt = con.prepareStatement(Query1);
+        pstmt.setString(1, studentId);
+        pstmt.setString(2, studentName);
+        pstmt.setString(3, sex);
+        pstmt.setString(4, sdf.format(birthDate));
+        
+        pstmt.executeUpdate();
+        
+        return pstmt;
     }
     
     /**
@@ -330,7 +354,15 @@ public class EnrollJDBC
     public PreparedStatement deleteStudent(String studentId) throws SQLException
     {
     	// TODO: Use a PreparedStatement and return it at the end of the method
-    	return null;
+    	String  Query1 = "DELETE FROM student WHERE sid = ?";
+        
+        PreparedStatement pstmt = con.prepareStatement(Query1);
+        
+        pstmt.setString(1, studentId);
+        
+        pstmt.executeUpdate();
+        
+        return pstmt;
     }
     
     /**
@@ -345,7 +377,22 @@ public class EnrollJDBC
     public PreparedStatement updateStudent(String studentId, String studentName, String sex, java.util.Date birthDate, double gpa) throws SQLException
     {
     	// TODO: Use a PreparedStatement and return it at the end of the method
-    	return null;
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	String  Query1 = "UPDATE student SET sname = ?,sex = ?, birthdate = ?, gpa = ? WHERE sid = ?";
+        
+        PreparedStatement pstmt = con.prepareStatement(Query1);
+        
+        pstmt.setString(1, studentName);
+        pstmt.setString(2, sex);
+        pstmt.setString(3, sdf.format(birthDate));
+        pstmt.setString(4, Double.toString(gpa));
+        pstmt.setString(5, studentId);
+        
+        pstmt.executeUpdate();
+        
+        return pstmt;
     }     
     
     /**
@@ -360,7 +407,20 @@ public class EnrollJDBC
     public PreparedStatement newEnroll(String studentId, String courseNum, String sectionNum, Double grade) throws SQLException
     {               
     	// TODO: Use a PreparedStatement and return it at the end of the method
-    	return null;
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");	
+    	
+    	String  Query1 = "INSERT enroll (sid, cnum, secnum, grade) VALUES (?,?, ?, ?)";
+        
+        PreparedStatement pstmt = con.prepareStatement(Query1);
+        pstmt.setString(1, studentId);
+        pstmt.setString(2, courseNum);
+        pstmt.setString(3, sectionNum);
+        pstmt.setString(4, Double.toString(grade));
+        
+        pstmt.executeUpdate();
+        
+        return pstmt;
     }
     
     /**
@@ -375,7 +435,20 @@ public class EnrollJDBC
     public PreparedStatement updateStudentGPA(String studentId) throws SQLException
     {               
     	// TODO: Use a PreparedStatement and return it at the end of the method
-    	return null;
+    	ResultSet rst = computeGPA(studentId);
+    	rst.toString();
+    	rst.next();
+    	double newGPA = rst.getDouble(1);
+    	String  Query1 = "UPDATE student SET gpa = ? WHERE sid = ?";
+        
+        PreparedStatement pstmt = con.prepareStatement(Query1);
+        
+        pstmt.setString(1, Double.toString(newGPA));
+        pstmt.setString(2, studentId);
+        
+        pstmt.executeUpdate();
+        
+        return pstmt;
     }	
     
     /**

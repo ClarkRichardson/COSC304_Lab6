@@ -176,12 +176,12 @@ public class TestEnrollJDBC
     /*
      * Tests computing a GPA for a student.
      */   
-   /* @Test
+    @Test
     public void testComputeGPA() throws SQLException
     {             
         // Re-initialize database
         q.init();
-        
+         
         System.out.println("\nTest compute GPA for student: 45671234.\n");
         
         ResultSet rst = q.computeGPA("45671234");
@@ -214,11 +214,11 @@ public class TestEnrollJDBC
         assertEquals(answer, queryResult);              
     }
 	
-    *//**
+    /**
      * Tests add a student.
      * @throws ParseException 
-     *//*    
-    @Test
+     */ 
+     @Test
     public void testAddStudent() throws SQLException, ParseException
     {            
         // Re-initialize database
@@ -270,9 +270,9 @@ public class TestEnrollJDBC
         assertEquals(answer, result);                     
     }
     
-    *//**
+    /**
      * Tests delete a student.
-     *//*    
+     */   
     @Test
     public void testDeleteStudent() throws SQLException
     {     
@@ -322,10 +322,10 @@ public class TestEnrollJDBC
         assertEquals(answer, result);                     
     }
     
-    *//**
+    /**
      * Tests update a student.
      * @throws ParseException 
-     *//*    
+     */    
     @Test
     public void testUpdateStudent() throws SQLException, ParseException
     {   
@@ -375,10 +375,10 @@ public class TestEnrollJDBC
          assertEquals(answer, result);                       
     }
     
-    *//**
+    /**
      * Tests adding a new section enrollment.
-     *//*    
-    @Test
+     */    
+      @Test
     public void testNewEnroll() throws SQLException
     { 
         // Re-initialize database
@@ -404,9 +404,9 @@ public class TestEnrollJDBC
         assertEquals(answer, result);                     
     }
     
-    *//**
+    /**
      * Tests updating student GPA.
-     *//*    
+     */    
     @Test
     public void testUpdateStudentGPA() throws SQLException
     { 
@@ -434,10 +434,10 @@ public class TestEnrollJDBC
         assertEquals(answer, result);                     
     }
     
-    *//**
+    /**
      * Tests updating student mark.
-     *//*    
-    @Test
+     */    
+     /*@Test
     public void testUpdateStudentMark() throws SQLException
     { 
         // Re-initialize database
