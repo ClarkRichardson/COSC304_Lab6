@@ -386,7 +386,7 @@ public class EnrollJDBC
         
         pstmt.setString(1, studentName);
         pstmt.setString(2, sex);
-        pstmt.setString(3, sdf.format(birthDate));
+        pstmt.setString(3, sdf.format(birthDate)); //use ifnot null set to date if null set to current date
         pstmt.setString(4, Double.toString(gpa));
         pstmt.setString(5, studentId);
         
